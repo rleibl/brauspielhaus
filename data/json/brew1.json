@@ -1,0 +1,50 @@
+{
+  "Id": 1,
+  "Name": "Example Brew",
+  "Description": "This is an example brew to show the data structure",
+  "Brewdate": "2020-03-06T14:42:53.23085+01:00",
+  "Hops": [
+    {
+      "Name": "Hallertauer Perle",
+      "Alpha": "",
+      "Amount": 21,
+      "Time": 20
+    }
+  ],
+  "Malts": [
+    {
+      "Name": "Pilsner Malz",
+      "EBC": "10",
+      "Amount": 5000
+    }
+  ],
+  "IngredOther": null,
+  "Mash": [
+    {
+      "Temperature": 30,
+      "Duration": 0
+    },
+    {
+      "Temperature": 60,
+      "Duration": 50
+    },
+    {
+      "Temperature": 78,
+      "Duration": 0
+    }
+  ],
+  "Boil": 90,
+  "MashNotes": "",
+  "Yeasts": [
+    {
+      "Name": "Saflager S-34",
+      "Type": "",
+      "Amount": "1 pkg"
+    }
+  ],
+  "Measurements": [],
+  "FermentationNotes": "",
+  "Volume": 23,
+  "ABV": 0,
+  "Notes": ""
+}

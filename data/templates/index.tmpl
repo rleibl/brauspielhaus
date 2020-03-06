@@ -1,0 +1,21 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/main.css" />
+    </head>
+    <body>
+        <h1> Beers </h1>
+
+	<table class="btable">
+	    <tr>
+	        <th>Name</th>
+	        <th>Date</th>
+	    </tr>
+	    {{ range .beers }}
+	    <tr>
+	        <td><a href="/beers/{{ .Id }}">{{ .Name }}</a></td>
+	        <td>{{ .Brewdate }}</td>
+	    </tr>
+	    {{ end }}
+	</table>
+    </body>
+</html>
