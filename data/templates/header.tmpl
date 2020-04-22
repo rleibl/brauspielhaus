@@ -1,0 +1,43 @@
+{{define "header"}}
+<html>
+    <head>
+    	<title>Brauspielhaus</title>
+        <link rel="stylesheet" type="text/css" href="/static/main.css" />
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+
+    <div class="topbar">
+        <a href="/">
+            <img src="/static/img/brauspielhaus.png" alt="brauspielhaus">
+        </a>
+    </div>
+
+    <div class="sidebar">
+        <ul class="nav">
+	    <!-- Menu --> 
+	    {{if eq .ActivePage "home" }}
+	    <li class="menu-item-active">
+	    {{else}}
+	    <li class="menu-item">
+	    {{end}}
+	    	<a href="/">Home</a>
+	    </li>
+	    {{if eq .ActivePage "beers" }}
+	    <li class="menu-item-active">
+	    {{else}}
+	    <li class="menu-item">
+	    {{end}}
+	    	<a href="/beers">Biere</a>
+	    <li>
+	    	<a href="/equipment">Ausr&uuml;stung</a>
+	    <li>
+	    	<a href="/tech">Technik</a>
+	    <li>
+	    	<a href="/links">Links</a>
+        </ul>
+    </div>
+
+    <div class="content">
+            path here
+{{end}}
