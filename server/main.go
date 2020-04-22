@@ -25,7 +25,7 @@ func RunServer() {
 	r.GET("/beers/*id", beersHandler)
 	r.GET("/", defaultHandler)
 
-	r.Run(":8080")
+	r.Run(c.ServerAdress)
 }
 
 func defaultHandler(c *gin.Context) {

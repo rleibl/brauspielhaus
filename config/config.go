@@ -10,6 +10,7 @@ type Config struct {
 	TemplatePath string
 	StaticPath   string
 	JsonPath     string
+	ServerAdress string
 }
 
 var config *Config
@@ -24,6 +25,7 @@ func init() {
 		TemplatePath: filepath.Join(cp, "templates/*"),
 		StaticPath:   filepath.Join(cp, "static/"),
 		JsonPath:     filepath.Join(cp, "json/"),
+		ServerAdress: ":8000",
 	}
 	config = &c
 }

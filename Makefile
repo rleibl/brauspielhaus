@@ -46,7 +46,7 @@ fmt:
 lint:
 	$(GOPATH)/bin/golint -set_exit_status $(BASEDIR)/...
 
-run:
+run: build_server
 	./$(SERVERBIN)
 
 # -------------------------------------------------------------------
