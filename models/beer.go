@@ -74,7 +74,10 @@ type Beer struct {
 	Notes string `json:notes`
 }
 
-func LoadBeersFromJson(directory string) *[]Beer {
+func (b *Beer) UpdateCalculatedFields() {
+}
+
+func LoadBeersFromJson(directory string) []Beer {
 
 	files, err := filepath.Glob(filepath.Join(directory, "*"))
 	if err != nil {
@@ -87,7 +90,7 @@ func LoadBeersFromJson(directory string) *[]Beer {
 		beers[i] = LoadBeerFromJson(f)
 	}
 
-	return &beers
+	return beers
 }
 
 func LoadBeerFromJson(filename string) Beer {
@@ -108,6 +111,16 @@ func (b *Beer) Store(filename string) {
 }
 
 func (b *Beer) Dump() {
+}
+
+func (b *Beer) ToJson() string {
+	by, err := json.Marshal(b)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+
+	return string(by)
 }
 
 func PrintBeerExample() {
