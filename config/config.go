@@ -14,7 +14,7 @@ type Config struct {
 
 var config *Config
 
-func Init() {
+func init() {
 
 	cp := filepath.Join(os.Getenv("GOPATH"),
 		"src/github.com/rleibl/brauspielhaus/data/")

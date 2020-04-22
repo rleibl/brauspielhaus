@@ -6,7 +6,7 @@ import (
 	"github.com/rleibl/brauspielhaus/models"
 )
 
-var beers *[]models.Beer
+var beers []models.Beer
 
 func Init() {
 
@@ -15,13 +15,13 @@ func Init() {
 	beers = models.LoadBeersFromJson(c.JsonPath)
 }
 
-func GetBeers() *[]models.Beer {
+func GetBeers() []models.Beer {
 	return beers
 }
 
 func GetBeer(id int) (*models.Beer, error) {
 
-	for _, b := range *beers {
+	for _, b := range beers {
 		if b.Id == id {
 			return &b, nil
 		}

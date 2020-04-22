@@ -15,7 +15,6 @@ type Context struct {
 
 func RunServer() {
 
-	config.Init()
 	db.Init()
 
 	r := gin.Default()

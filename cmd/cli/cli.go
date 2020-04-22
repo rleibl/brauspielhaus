@@ -62,7 +62,11 @@ func printTemplate(s []string) {
 }
 
 func listBeers(s []string) {
-	config.Init()
+
+	// Use load from json directly. This way, we can give the path
+	// directly.
+	// Alternatively:
+	//     beers := db.getBeers()
 	c := config.GetConfig()
 	beers := models.LoadBeersFromJson(c.JsonPath)
 
