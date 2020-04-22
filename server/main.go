@@ -6,7 +6,12 @@ import (
 	"github.com/rleibl/brauspielhaus/db"
 	"net/http"
 	"strconv"
+	"fmt"
 )
+
+type Context struct {
+	ActivePage string
+}
 
 func RunServer() {
 
@@ -18,7 +23,7 @@ func RunServer() {
 	c := config.GetConfig()
 	r.LoadHTMLGlob(c.TemplatePath)
 	r.Static("/static/", c.StaticPath)
-	r.GET("/beers/:id", beersHandler)
+	r.GET("/beers/*id", beersHandler)
 	r.GET("/", defaultHandler)
 
 	r.Run(":8080")
@@ -26,12 +31,32 @@ func RunServer() {
 
 func defaultHandler(c *gin.Context) {
 
-	c.HTML(http.StatusOK, "index.tmpl", gin.H{"beers": db.GetBeers()})
+	g := gin.H{
+		"beers": db.GetBeers(),
+		"context": Context{ ActivePage: "home" },
+	}
+
+	c.HTML(http.StatusOK, "index.tmpl", g)
 }
 
 func beersHandler(c *gin.Context) {
 
 	id := c.Param("id")
+	fmt.Println(id)
+
+	// FIXME cleanly separate between 'beers/' and 'beers/[id]'
+	//       Use different templates, don't use index.tmpl, which
+	//       may change. Create beerlist.tmpl and include in index
+	//       and beers/ templates
+	if id == "" || id == "/" {
+		g := gin.H{
+			"beers": db.GetBeers(),
+			"context": Context{ ActivePage: "beers" },
+		}
+
+		c.HTML(http.StatusOK, "index.tmpl", g)
+		return
+	}
 	i, err := strconv.Atoi(id)
 	if err != nil {
 		c.HTML(http.StatusNotFound, "notfound.tmpl", nil)
@@ -43,5 +68,10 @@ func beersHandler(c *gin.Context) {
 		c.HTML(http.StatusNotFound, "notfound.tmpl", nil)
 		return
 	}
-	c.HTML(http.StatusOK, "beer.tmpl", gin.H{"beer": b})
+
+	g := gin.H{
+		"beer": b,
+		"context": Context{ ActivePage: "beers" },
+	}
+	c.HTML(http.StatusOK, "beer.tmpl", g)
 }

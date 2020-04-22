@@ -1,8 +1,5 @@
-<html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="/static/main.css" />
-    </head>
-    <body>
+{{template "header" .context}}
+
         <h1> Beers </h1>
 
 	<table class="btable">
@@ -17,5 +14,5 @@
 	    </tr>
 	    {{ end }}
 	</table>
-    </body>
-</html>
+
+{{template "footer"}}
