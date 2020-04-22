@@ -100,17 +100,19 @@ func LoadBeerFromJson(filename string) Beer {
 		panic(err)
 	}
 
+	return FromJson(content)
+}
+
+func FromJson(b []byte) Beer {
+
 	var beer Beer
 
-	err = json.Unmarshal(content, &beer)
+	err := json.Unmarshal(b, &beer)
+	if err != nil {
+		panic(err)
+	}
 
 	return beer
-}
-
-func (b *Beer) Store(filename string) {
-}
-
-func (b *Beer) Dump() {
 }
 
 func (b *Beer) ToJson() string {
@@ -123,7 +125,43 @@ func (b *Beer) ToJson() string {
 	return string(by)
 }
 
-func PrintBeerExample() {
+func (b *Beer) Store(filename string) {
+}
+
+func (b *Beer) Print() {
+
+	fmt.Printf("Id:   %d\n", b.Id)
+	fmt.Printf("Name: %s\n", b.Name)
+	fmt.Printf("Desc: %s\n", b.Description)
+	fmt.Printf("Date: %s\n", b.Brewdate)
+
+	fmt.Printf("Hops:\n")
+	for i, h := range b.Hops {
+		fmt.Printf("    %d %s (%d g, %d min)\n", i+1, h.Name, h.Amount, h.Time)
+	}
+
+	fmt.Printf("Malts:\n")
+	for i, m := range b.Malts {
+		fmt.Printf("    %d %s (%s EBC, %d Amount)\n", i+1, m.Name, m.EBC, m.Amount)
+	}
+
+	fmt.Printf("Mash Steps:\n")
+	for i, m := range b.Mash {
+		fmt.Printf("    %d:  %d Deg, %3d min\n", i+1, m.Temperature, m.Duration)
+	}
+
+	fmt.Printf("Boil Time: %d\n", b.Boil)
+
+	fmt.Printf("Yeast:\n")
+	for i, y := range b.Yeasts {
+		fmt.Printf("    %d %s (%s)\n", i+1, y.Name, y.Amount)
+	}
+
+	fmt.Printf("Yield: %fl\n", b.Volume)
+
+}
+
+func BeerTemplate() Beer {
 	b := Beer{
 		Id:          1,
 		Name:        "Example Brew",
@@ -172,10 +210,11 @@ func PrintBeerExample() {
 		Volume: 23,
 	}
 
-	by, err := json.Marshal(b)
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println(string(by))
+
+	return b
+}
+
+func PrintBeerTemplate() {
+	b := BeerTemplate()
+	fmt.Println(b.ToJson())
 }

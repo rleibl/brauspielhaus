@@ -26,6 +26,8 @@ func main() {
 		fillBeerJson(opts)
 	case "list":
 		listBeers(opts)
+	case "print":
+		printBeers(opts)
 	default:
 		fmt.Printf("unknown command: %s\n", cmd)
 		helpAndExit(-1)
@@ -47,6 +49,9 @@ available commands
 
     list
         print a summary of all available beers
+    
+    print
+        print all beers
 
     fill <beer.json>
         Update all automatically calculated fields in <beer.json> .
@@ -58,7 +63,7 @@ available commands
 }
 
 func printTemplate(s []string) {
-	models.PrintBeerExample()
+	models.PrintBeerTemplate()
 }
 
 func listBeers(s []string) {
@@ -72,6 +77,20 @@ func listBeers(s []string) {
 
 	for i, b := range beers {
 		fmt.Printf("%d: %s, %s\n", i+1, b.Name, b.Brewdate)
+	}
+}
+
+func printBeers(s []string) {
+
+	// Use load from json directly. This way, we can give the path
+	// directly.
+	// Alternatively:
+	//     beers := db.getBeers()
+	c := config.GetConfig()
+	beers := models.LoadBeersFromJson(c.JsonPath)
+
+	for _, b := range beers {
+		b.Print()
 	}
 }
 
