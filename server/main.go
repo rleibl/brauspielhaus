@@ -1,12 +1,12 @@
 package server
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rleibl/brauspielhaus/config"
 	"github.com/rleibl/brauspielhaus/db"
 	"net/http"
 	"strconv"
-	"fmt"
 )
 
 type Context struct {
@@ -31,8 +31,8 @@ func RunServer() {
 func defaultHandler(c *gin.Context) {
 
 	g := gin.H{
-		"beers": db.GetBeers(),
-		"context": Context{ ActivePage: "home" },
+		"beers":   db.GetBeers(),
+		"context": Context{ActivePage: "home"},
 	}
 
 	c.HTML(http.StatusOK, "index.tmpl", g)
@@ -49,8 +49,8 @@ func beersHandler(c *gin.Context) {
 	//       and beers/ templates
 	if id == "" || id == "/" {
 		g := gin.H{
-			"beers": db.GetBeers(),
-			"context": Context{ ActivePage: "beers" },
+			"beers":   db.GetBeers(),
+			"context": Context{ActivePage: "beers"},
 		}
 
 		c.HTML(http.StatusOK, "index.tmpl", g)
@@ -69,8 +69,8 @@ func beersHandler(c *gin.Context) {
 	}
 
 	g := gin.H{
-		"beer": b,
-		"context": Context{ ActivePage: "beers" },
+		"beer":    b,
+		"context": Context{ActivePage: "beers"},
 	}
 	c.HTML(http.StatusOK, "beer.tmpl", g)
 }

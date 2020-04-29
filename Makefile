@@ -42,6 +42,9 @@ test:
 fmt:
 	$(GOFMT) -d $(GOPATH)src/$(BASEDIR)/
 
+fmt-force:
+	$(GOFMT) -w -d $(GOPATH)src/$(BASEDIR)/
+
 # go get -u golang.org/x/lint/golint
 lint:
 	$(GOPATH)/bin/golint -set_exit_status $(BASEDIR)/...

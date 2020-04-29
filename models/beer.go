@@ -210,7 +210,6 @@ func BeerTemplate() Beer {
 		Volume: 23,
 	}
 
-
 	return b
 }
 

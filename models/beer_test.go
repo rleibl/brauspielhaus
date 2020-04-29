@@ -2,8 +2,8 @@ package models
 
 import (
 	"github.com/rleibl/brauspielhaus/config"
-	"testing"
 	"reflect"
+	"testing"
 )
 
 func TestBeersLoad(t *testing.T) {
@@ -30,7 +30,7 @@ func TestJson(t *testing.T) {
 	//     tmpl2: Date: 2020-04-22 09:59:55.39177 +0200 CEST
 	tmpl2.Brewdate = tmpl.Brewdate
 
-	if ! reflect.DeepEqual(tmpl, tmpl2) {
+	if !reflect.DeepEqual(tmpl, tmpl2) {
 		tmpl.Print()
 		tmpl2.Print()
 		t.Errorf("Template -> JSON -> Template Failed")
