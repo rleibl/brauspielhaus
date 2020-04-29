@@ -71,6 +71,21 @@ func (m *MyTime) DurationBetween(m2 MyTime) int {
 	return days
 }
 
+func Duration(s1, s2 string) int {
+
+	if s1 == "" {
+		return 0
+	}
+	if s2 == "" {
+		return 0
+	}
+
+	t1 := ParseTime(s1)
+	t2 := ParseTime(s2)
+
+	return t1.DurationBetween(t2)
+}
+
 func IntToMonth(i int) time.Month {
 
 	switch i {

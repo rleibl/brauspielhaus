@@ -55,5 +55,25 @@ func TestDuration(t *testing.T) {
 			t.Errorf("Got: %d, expected: %d, from %+v\n", d, tc.d, tc)
 		}
 	}
+}
+
+func TestDurationStr(t *testing.T) {
+
+	testcases := []TimeDiffT{
+		TimeDiffT{"01.01.1970", "02.01.1970", 1},
+		TimeDiffT{"01.01.1970", "01.01.1970", 0},
+		TimeDiffT{"10.01.1970", "01.01.1970", 9},
+		TimeDiffT{"01.01.1970", "01.01.1971", 365},
+		TimeDiffT{"01.01.1970", "01.02.1970", 31},
+		TimeDiffT{"01.01.1970", "01.02.1971", 396},
+	}
+
+	for _, tc := range testcases {
+
+		d := Duration(tc.t1, tc.t2)
+		if d != tc.d {
+			t.Errorf("Got: %d, expected: %d, from %+v\n", d, tc.d, tc)
+		}
+	}
 
 }

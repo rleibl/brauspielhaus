@@ -13,6 +13,9 @@ func Init() {
 	c := config.GetConfig()
 
 	beers = models.LoadBeersFromJson(c.JsonPath)
+	for _, b := range beers {
+		b.Validate()
+	}
 }
 
 func GetBeers() []models.Beer {

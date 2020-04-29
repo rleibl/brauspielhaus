@@ -2,7 +2,7 @@
   "Id": 1,
   "Name": "Example Brew",
   "Description": "This is an example brew to show the data structure",
-  "Brewdate": "2020-03-06T14:42:53.23085+01:00",
+  "Brewdate": "01.01.2020",
   "Hops": [
     {
       "Name": "Hallertauer Perle",
@@ -44,6 +44,10 @@
   ],
   "Measurements": [],
   "FermentationNotes": "",
+  "FirstFermStart": "",
+  "SecondFermStart": "25.01.2020",
+  "ConditioningStart": "8.2.2020",
+  "Ready": "8.3.2020",
   "Volume": 23,
   "ABV": 0,
   "Notes": ""

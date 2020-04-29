@@ -2,7 +2,7 @@
   "Id": 1,
   "Name": "AnotherExample Brew",
   "Description": "This is another example brew to show the data structure",
-  "Brewdate": "2020-02-06T14:42:53.23085+01:00",
+  "Brewdate": "12.02.2020",
   "Hops": [
     {
       "Name": "Hallertauer Perle",

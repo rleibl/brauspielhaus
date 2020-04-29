@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
-	"time"
 )
 
 type Yeast struct {
@@ -39,7 +38,7 @@ type MashStep struct {
 }
 
 type FermentationMeasurement struct {
-	Date MyTime  `json:date`
+	Date string  `json:date`
 	Brix float32 `json:brix`
 }
 
@@ -48,7 +47,8 @@ type Beer struct {
 	Id          int    `json:id`
 	Name        string `json:name`
 	Description string `json:description`
-	Brewdate    MyTime `json:brewdate`
+	Brewdate    string `json:brewdate`
+	Status      string `json:status` // Automatic
 
 	// Mashing / Boiling
 	Hops        []Hop              `json:hops`
@@ -59,22 +59,63 @@ type Beer struct {
 	MashNotes   string             `json:mashnotes`
 
 	// Fermenting
-	Yeasts []Yeast `json:yeasts`
+	FirstFermStart string  `json:firstfermstart` // brewdate, unlesse set otherwise
+	Yeasts         []Yeast `json:yeasts`
+
 	// Original wort: Measurements[0]
 	// Final wort:    Measurements[len(Measurements)-1]
 	Measurements      []FermentationMeasurement `json:measurements`
 	FermentationNotes string                    `json:fermentationnotes`
 
 	// Bottling / Kegging
-	Volume float32 `json:volume`
+	SecondFermStart string  `json:secondfermstart` // start date of second vermentation
+	Volume          float32 `json:volume`
+
+	ConditioningStart string `json:conditioningstart` // start date of conditioning
+	Ready             string `json:ready`             // time brew is considered ready
 
 	ABV float32 `json:abv` // calculated
+
+	// Durations
+	//
+	// First Fermentation: FirstFermStart -> SecondFermStart
+	DurFirstFerm int `json:durfirstferm` // Automatic
+	// Second Fermentation: SecondFermStart -> ConditioningStart
+	DurSecondFerm int `json:dursecondferm` // Automatic
+	// ConditioningStart: ConditioningStart -> Ready
+	DurConditioning int `json:durconditioning` // Automatic
+	// Total: Brewdate -> Ready
+	DurTotal int `json:durtotal` // Automatic
 
 	// Notes
 	Notes string `json:notes`
 }
 
-func (b *Beer) UpdateCalculatedFields() {
+func (b *Beer) Validate() {
+
+	if b.FirstFermStart == "" {
+		b.FirstFermStart = b.Brewdate
+	}
+
+	b.Status = "Planned"
+	if b.Brewdate != "" {
+		b.Status = "First Fermentation"
+	}
+
+	if b.SecondFermStart != "" {
+		b.DurFirstFerm = Duration(b.FirstFermStart, b.SecondFermStart)
+		b.Status = "Second Fermentation"
+		if b.ConditioningStart != "" {
+			b.DurSecondFerm = Duration(b.SecondFermStart, b.ConditioningStart)
+			b.Status = "Conditioning"
+			if b.Ready != "" {
+				b.DurConditioning = Duration(b.ConditioningStart, b.Ready)
+				b.Status = "Ready"
+				b.DurTotal = Duration(b.Brewdate, b.Ready)
+			}
+		}
+	}
+
 }
 
 func LoadBeersFromJson(directory string) []Beer {
@@ -130,10 +171,11 @@ func (b *Beer) Store(filename string) {
 
 func (b *Beer) Print() {
 
-	fmt.Printf("Id:   %d\n", b.Id)
-	fmt.Printf("Name: %s\n", b.Name)
-	fmt.Printf("Desc: %s\n", b.Description)
-	fmt.Printf("Date: %s\n", b.Brewdate)
+	fmt.Printf("Id:     %d\n", b.Id)
+	fmt.Printf("Name:   %s\n", b.Name)
+	fmt.Printf("Desc:   %s\n", b.Description)
+	fmt.Printf("Date:   %s\n", b.Brewdate)
+	fmt.Printf("Status: %s\n", b.Status)
 
 	fmt.Printf("Hops:\n")
 	for i, h := range b.Hops {
@@ -159,6 +201,11 @@ func (b *Beer) Print() {
 
 	fmt.Printf("Yield: %fl\n", b.Volume)
 
+	fmt.Printf("First Fermentation:  %s (%d days)\n", b.FirstFermStart, b.DurFirstFerm)
+	fmt.Printf("Second Fermentation: %s (%d days)\n", b.SecondFermStart, b.DurSecondFerm)
+	fmt.Printf("Conditioning:        %s (%d days)\n", b.ConditioningStart, b.DurConditioning)
+	fmt.Printf("Ready:               %s (%d days)\n", b.Ready, b.DurTotal)
+
 }
 
 func BeerTemplate() Beer {
@@ -166,7 +213,7 @@ func BeerTemplate() Beer {
 		Id:          1,
 		Name:        "Example Brew",
 		Description: "This is an example brew to show the data structure",
-		Brewdate:    time.Now(),
+		Brewdate:    "01.01.1970",
 
 		Hops: []Hop{
 			Hop{

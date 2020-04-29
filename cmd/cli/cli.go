@@ -90,6 +90,7 @@ func printBeers(s []string) {
 	beers := models.LoadBeersFromJson(c.JsonPath)
 
 	for _, b := range beers {
+		b.Validate()
 		b.Print()
 	}
 }
