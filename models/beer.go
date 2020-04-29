@@ -39,16 +39,16 @@ type MashStep struct {
 }
 
 type FermentationMeasurement struct {
-	Date time.Time `json:date`
-	Brix float32   `json:brix`
+	Date MyTime  `json:date`
+	Brix float32 `json:brix`
 }
 
 type Beer struct {
 	// Housekeeping
-	Id          int       `json:id`
-	Name        string    `json:name`
-	Description string    `json:description`
-	Brewdate    time.Time `json:brewdate`
+	Id          int    `json:id`
+	Name        string `json:name`
+	Description string `json:description`
+	Brewdate    MyTime `json:brewdate`
 
 	// Mashing / Boiling
 	Hops        []Hop              `json:hops`
