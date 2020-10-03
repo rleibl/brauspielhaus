@@ -32,3 +32,26 @@ func GetBeer(id int) (*models.Beer, error) {
 
 	return nil, errors.New("No such id")
 }
+
+func GetBlogEntries() []models.BlogEntry {
+
+	c := config.GetConfig()
+
+	// FIXME
+	f := c.JsonPath + "/blog.json"
+
+	return models.LoadBlogEntriesFromJson(f)
+}
+
+func GetBlogEntry(id int) (*models.BlogEntry, error) {
+
+	blogs := GetBlogEntries()
+
+	for _, b := range blogs {
+		if b.Id == id {
+			return &b, nil
+		}
+	}
+
+	return nil, errors.New("No such id")
+}

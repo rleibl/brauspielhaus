@@ -22,13 +22,21 @@
 	    <li class="menu-item">
 	    {{end}}
 	    	<a href="/">Home</a>
-	    </li>
+
+	    {{if eq .ActivePage "blog" }}
+	    <li class="menu-item-active">
+	    {{else}}
+	    <li class="menu-item">
+	    {{end}}
+	    	<a href="/blog">Blog</a>
+
 	    {{if eq .ActivePage "beers" }}
 	    <li class="menu-item-active">
 	    {{else}}
 	    <li class="menu-item">
 	    {{end}}
 	    	<a href="/beers">Biere</a>
+
 	    <li>
 	    	<a href="/equipment">Ausr&uuml;stung</a>
 	    <li>

@@ -3,22 +3,14 @@
         <h1> Letzte Biere </h1>
 
 	<table class="btable">
+	    <tr>
+	        <th>Name</th>
+	        <th>Date</th>
+	    </tr>
 	    {{ range .beers }}
 	    <tr>
 	        <td><a href="/beers/{{ .Id }}">{{ .Name }}</a></td>
 	        <td>{{ .Brewdate }}</td>
-	    </tr>
-	    {{ end }}
-	    <!-- XXX "view all" link to /beers -->
-	</table>
-
-        <h1> Letzte Blogeintr&auml;ge </h1>
-
-	<table class="blogtable">
-	    {{ range .blogentries }}
-	    <tr>
-	        <td><a href="/blog/{{ .Id }}">{{ .Title }}</a></td>
-		<td>{{ .Date }}</td>
 	    </tr>
 	    {{ end }}
 	</table>

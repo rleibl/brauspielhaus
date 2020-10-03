@@ -1,0 +1,14 @@
+{{template "header" .context}}
+
+        <h1> Blogeintr&auml;ge </h1>
+
+	<table class="btable">
+	    {{ range .blogentries }}
+	    <tr>
+	        <td><a href="/blog/{{ .Id }}">{{ .Title }}</a></td>
+	        <td>{{ .Date }}</td>
+	    </tr>
+	    {{ end }}
+	</table>
+
+{{template "footer"}}

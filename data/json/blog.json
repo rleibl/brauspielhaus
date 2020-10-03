@@ -1,0 +1,16 @@
+[
+	{
+		"id": 1,
+		"date": "01-01-1970",
+		"title": "Initial Post",
+		"content": "Der initiale Post auf diesem Blog",
+		"author": "ovid"
+	},
+	{
+		"id": 2,
+		"date": "11-01-1970",
+		"title": "Another Post",
+		"content": "This is another post on this blog. The text of this post is much, much longer than the others, so it is, at least theoretically possible to shorten this blog entry to some sort of automatic summary, such that the user has to click on some sort of '... continue reading' or some such",
+		"author": "ovid"
+	}
+]

@@ -1,0 +1,25 @@
+{{template "header" .context}}
+
+        <h1> Blog </h1>
+
+	<table class="btable">
+	    <tr>
+	        <th>Title</th>
+	        <td>{{ .blog.Title }}</td>
+	    </tr>
+	    <tr>
+	        <th>Date</th>
+	        <td>{{ .blog.Date }}</td>
+	    </tr>
+	    <tr>
+	        <th>By </th>
+		<td>{{ .blog.Author }}</td>
+	    </tr>
+	    <tr>
+	        <th></th>
+		<td>{{ .blog.Content }}</td>
+	    </tr>
+	</table>
+
+{{template "footer"}}
+

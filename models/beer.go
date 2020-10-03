@@ -120,7 +120,7 @@ func (b *Beer) Validate() {
 
 func LoadBeersFromJson(directory string) []Beer {
 
-	files, err := filepath.Glob(filepath.Join(directory, "*"))
+	files, err := filepath.Glob(filepath.Join(directory, "brew*"))
 	if err != nil {
 		panic(err)
 	}
@@ -141,10 +141,10 @@ func LoadBeerFromJson(filename string) Beer {
 		panic(err)
 	}
 
-	return FromJson(content)
+	return BeerFromJson(content)
 }
 
-func FromJson(b []byte) Beer {
+func BeerFromJson(b []byte) Beer {
 
 	var beer Beer
 

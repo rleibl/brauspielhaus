@@ -23,6 +23,7 @@ func RunServer() {
 	r.LoadHTMLGlob(c.TemplatePath)
 	r.Static("/static/", c.StaticPath)
 	r.GET("/beers/*id", beersHandler)
+	r.GET("/blog/*id", blogHandler)
 	r.GET("/", defaultHandler)
 	r.NoRoute(notFoundHandler)
 
@@ -32,7 +33,9 @@ func RunServer() {
 func defaultHandler(c *gin.Context) {
 
 	g := gin.H{
+		// XXX return only recent beers here (last 2 or 3)
 		"beers":   db.GetBeers(),
+		"blogentries": db.GetBlogEntries(),
 		"context": Context{ActivePage: "home"},
 	}
 
@@ -46,6 +49,42 @@ func notFoundHandler(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusNotFound, "notfound.tmpl", g)
+}
+
+func blogHandler(c *gin.Context) {
+
+	id := c.Param("id")
+
+	if id == "" || id == "/" {
+		g := gin.H{
+			"blogentries":   db.GetBlogEntries(),
+			"context": Context{ActivePage: "blog"},
+		}
+
+		c.HTML(http.StatusOK, "blog_index.tmpl", g)
+		return
+	}
+	id = id[1:] // strip leading '/'
+	i, err := strconv.Atoi(id)
+	if err != nil {
+		fmt.Printf("Atoi failed for '%s'\n", id)
+		c.HTML(http.StatusNotFound, "notfound.tmpl",
+			gin.H{"context":Context{ActivePage: "None"}} )
+		return
+	}
+
+	b, err := db.GetBlogEntry(i)
+	if err != nil {
+		c.HTML(http.StatusNotFound, "notfound.tmpl",
+			gin.H{"context": Context{ActivePage: "None"}} )
+		return
+	}
+
+	g := gin.H{
+		"blog":    b,
+		"context": Context{ActivePage: "blog"},
+	}
+	c.HTML(http.StatusOK, "blog.tmpl", g)
 }
 
 func beersHandler(c *gin.Context) {
@@ -63,18 +102,22 @@ func beersHandler(c *gin.Context) {
 			"context": Context{ActivePage: "beers"},
 		}
 
-		c.HTML(http.StatusOK, "index.tmpl", g)
+		c.HTML(http.StatusOK, "beers_index.tmpl", g)
 		return
 	}
+	id = id[1:] // strip leading '/'
 	i, err := strconv.Atoi(id)
 	if err != nil {
-		c.HTML(http.StatusNotFound, "notfound.tmpl", nil)
+		fmt.Printf("Atoi failed for '%s'\n", id)
+		c.HTML(http.StatusNotFound, "notfound.tmpl",
+			gin.H{"context":Context{ActivePage: "None"}} )
 		return
 	}
 
 	b, err := db.GetBeer(i)
 	if err != nil {
-		c.HTML(http.StatusNotFound, "notfound.tmpl", nil)
+		c.HTML(http.StatusNotFound, "notfound.tmpl",
+			gin.H{"context":Context{ActivePage: "None"}} )
 		return
 	}
 
