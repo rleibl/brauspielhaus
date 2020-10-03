@@ -24,6 +24,7 @@ func RunServer() {
 	r.Static("/static/", c.StaticPath)
 	r.GET("/beers/*id", beersHandler)
 	r.GET("/", defaultHandler)
+	r.NoRoute(notFoundHandler)
 
 	r.Run(c.ServerAdress)
 }
@@ -36,6 +37,15 @@ func defaultHandler(c *gin.Context) {
 	}
 
 	c.HTML(http.StatusOK, "index.tmpl", g)
+}
+
+func notFoundHandler(c *gin.Context) {
+
+	g := gin.H{
+		"context": Context{ActivePage: "None"},
+	}
+
+	c.HTML(http.StatusNotFound, "notfound.tmpl", g)
 }
 
 func beersHandler(c *gin.Context) {
